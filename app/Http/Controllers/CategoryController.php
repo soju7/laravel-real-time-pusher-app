@@ -8,6 +8,14 @@ use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('jwt-auth', ['except' => [
+            'index','show'
+            ]]);
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +23,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-     
+
       return CategoryResource::collection(Category::latest()->get());
 
   }
@@ -91,7 +99,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-       $category->delete();
-       return response('deleted',\Symfony\Component\HttpFoundation\Response::HTTP_OK);
-   }
+     $category->delete();
+     return response('deleted',\Symfony\Component\HttpFoundation\Response::HTTP_OK);
+ }
 }

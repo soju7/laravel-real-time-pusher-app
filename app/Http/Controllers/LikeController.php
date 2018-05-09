@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 class LikeController extends Controller
 {
 
+	public function __construct()
+	{
+		$this->middleware('jwt-auth');
+
+	}
 	public function likeit(Reply $reply)
 	{
 		return $reply->likes()->create(['user_id'=>1]);
@@ -17,8 +22,8 @@ class LikeController extends Controller
 	public function unlikeit(Reply $reply)
 	{
 		//return($reply->likes());
-		 $reply->likes()->where(['user_id'=>1])->first()->delete();
+		$reply->likes()->where(['user_id'=>1])->first()->delete();
 
-		 return response('deleted',\Symfony\Component\HttpFoundation\Response::HTTP_OK);
+		return response('deleted',\Symfony\Component\HttpFoundation\Response::HTTP_OK);
 	}
 }

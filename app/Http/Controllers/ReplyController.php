@@ -9,11 +9,13 @@ use App\Http\Resources\ReplyResource;
 
 class ReplyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('jwt-auth', ['except' => [
+            'index','show'
+            ]]);
+
+    }
     public function index(Question $question)
     {
         return ReplyResource::collection($question->replies);
